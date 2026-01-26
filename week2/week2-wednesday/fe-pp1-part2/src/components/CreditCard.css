@@ -1,0 +1,12 @@
+.main-div {
+  border: 2px solid red;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;   
+
+.th-div {
+  justify-content: space-between;
+  max-width: 600px;   
+  width:50%;        
+}
+}
