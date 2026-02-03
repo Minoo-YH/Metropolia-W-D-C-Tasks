@@ -16,6 +16,7 @@ The assignments are organized by week:
 - `week1/` – Week 1 tasks and exercises  
 - `week2/` – Week 2 tasks and exercises  + pair programing activity 1 nad 2
 - `week3/` – Week 3 tasks and exercises  
+- `week4/` – Week 4 tasks and exercises 
 
 Each folder may contain multiple sub-projects (labs, exercises, React apps, etc.).
 
