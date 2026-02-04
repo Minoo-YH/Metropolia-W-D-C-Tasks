@@ -1,40 +1,66 @@
+// Import database connection function
 const connectDB = require("./config/db");
+
+// Import core dependencies
 const express = require("express");
+
+// Import routers
 const carRouter = require("./routes/carRouter");
 const blogRouter = require("./routes/blogRouter");
 const userRouter = require("./routes/userRouter");
-// const userRouter = require('./routes/userRouter');
-// const blogRouter = require("./routes/blogRouter");
 
-const {requestLogger,unknownEndpoint,errorHandler} = require("./middleware/customMiddleware");
-  
-// express app
+// Import custom middleware
+const {
+  requestLogger,
+  unknownEndpoint,
+  errorHandler,
+} = require("./middleware/customMiddleware");
+
+// Create express application
 const app = express();
 
+// Connect to MongoDB
 connectDB();
- 
-// middleware
+
+// Built-in middleware to parse JSON bodies
 app.use(express.json());
 
-app.use("/api/blogs", blogRouter);
+// Log all incoming requests
 app.use(requestLogger);
 
-app.get("/", (req, res) => res.send("API Running!"));
+// Root route (health check)
+app.get("/", (req, res) => {
+  res.send("API Running!");
+});
 
-// routes
+// --------------------
+// API routes
+// --------------------
 
-// Use the carRouter for all /cars routes
+// Car routes
+// All routes starting with /api/cars will be handled by carRouter
 app.use("/api/cars", carRouter);
 
-// Use the blogRouter for all /cars routes
+// Blog routes
+// All routes starting with /api/blogs will be handled by blogRouter
+app.use("/api/blogs", blogRouter);
 
-// Use the userRouter for all /users routes
+// User routes
+// All routes starting with /api/users will be handled by userRouter
+app.use("/api/users", userRouter);
 
+// --------------------
+// Error handling
+// --------------------
+
+// Middleware for handling unknown endpoints
 app.use(unknownEndpoint);
 
+// Centralized error handling middleware
 app.use(errorHandler);
 
+// Start server
 const port = process.env.PORT || 4000;
-app.listen(port, () =>
-  console.log(`Server is running on http://localhost:${port}`)
-);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
