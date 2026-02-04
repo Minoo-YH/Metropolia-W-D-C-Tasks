@@ -88,9 +88,37 @@ const deleteBlog = async (req, res) => {
 };
 
 
+// PUT /api/blogs/:id
+const replaceBlog = async (req, res) => {
+  const { id } = req.params;
+
+  // Validate MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid blog ID" });
+  }
+
+  try {
+    const blog = await Blog.findOneAndReplace(
+      { _id: id },
+      req.body,
+      { new: true }
+    );
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to replace blog" });
+  }
+};
+
+
 module.exports = {
   getAllBlogs,
   getBlogById,
   createBlog,
   deleteBlog,
+  replaceBlog,
 };
