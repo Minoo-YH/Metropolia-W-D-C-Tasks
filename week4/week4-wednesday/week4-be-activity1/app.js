@@ -1,3 +1,7 @@
+require("dotenv").config();
+
+
+
 // Import database connection function
 const connectDB = require("./config/db");
 
