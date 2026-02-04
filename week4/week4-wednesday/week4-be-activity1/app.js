@@ -2,6 +2,7 @@ const connectDB = require("./config/db");
 const express = require("express");
 const carRouter = require("./routes/carRouter");
 const blogRouter = require("./routes/blogRouter");
+const userRouter = require("./routes/userRouter");
 // const userRouter = require('./routes/userRouter');
 // const blogRouter = require("./routes/blogRouter");
 
