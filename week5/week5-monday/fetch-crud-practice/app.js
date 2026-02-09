@@ -1,8 +1,19 @@
 // app.js
 const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
-
 const blogId = 1;
+
+const deleteBlog = async () => {
+  await fetch(`${apiUrl}/${blogId}`, {
+    method: 'DELETE',
+  });
+
+  console.log('DELETED');
+};
+
+deleteBlog();
+
+/*const blogId = 1;
 
 const updateBlog = async () => {
   const res = await fetch(`${apiUrl}/${blogId}`, {
