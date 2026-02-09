@@ -1,12 +1,23 @@
 // app.js
 const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
-const getAllBlogs = async () => {
-  const res = await fetch(apiUrl);
+const blogId = 1;
+
+const getOneBlog = async () => {
+  const res = await fetch(`${apiUrl}/${blogId}`);
   const data = await res.json();
   console.log(data);
 };
 
+getOneBlog();
+
+ /*const getAllBlogs = async () => {
+  const res = await fetch(apiUrl);
+  const data = await res.json();
+  console.log(data);
+};
+*/
+/*
 getAllBlogs();
 
 const blog = {
