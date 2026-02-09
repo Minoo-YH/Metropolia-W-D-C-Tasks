@@ -5,6 +5,9 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  
+  // Runs once when component mounts (empty dependency array)
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
