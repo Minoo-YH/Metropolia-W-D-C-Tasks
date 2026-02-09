@@ -1,13 +1,21 @@
 // app.js
 const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
+const getAllBlogs = async () => {
+  const res = await fetch(apiUrl);
+  const data = await res.json();
+  console.log(data);
+};
+
+getAllBlogs();
+
 const blog = {
   title: 'My First Blog',
   body: 'Hello from fetch!',
   userId: 1,
 };
 
-const createBlog = async () => {
+/*const createBlog = async () => {
   const res = await fetch(apiUrl, {
     method: 'POST',
     headers: {
@@ -21,3 +29,4 @@ const createBlog = async () => {
 };
 
 createBlog();
+*/
