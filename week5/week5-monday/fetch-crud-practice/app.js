@@ -1,7 +1,29 @@
 // app.js
 const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
 
+
 const blogId = 1;
+
+const updateBlog = async () => {
+  const res = await fetch(`${apiUrl}/${blogId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title: 'Updated Title',
+      body: 'This blog has been updated',
+      userId: 1,
+    }),
+  });
+
+  const data = await res.json();
+  console.log('UPDATED:', data);
+};
+
+updateBlog();
+
+/*const blogId = 1;
 
 const getOneBlog = async () => {
   const res = await fetch(`${apiUrl}/${blogId}`);
