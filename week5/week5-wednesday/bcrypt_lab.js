@@ -1,23 +1,31 @@
 const bcrypt = require('bcrypt');
 
 
-async function step2_hashPassword() {
+async function main() {
    const password = "mySecurePassword";
+   const wrongPassword = "wrongPassword";
     const cost = 10;
 
-    const salt = await bcrypt.genSalt(cost);
-  const hash = await bcrypt.hash(password, salt);
+    // Hash the password
+   
+    console.log("=== Step 3: Store hash (like register) ===");
+  const storedHash = await bcrypt.hash(password, cost); // خودش salt می‌سازه
+  console.log("Stored hash (save in DB):", storedHash);
 
-console.log("\n=== Step 2: Hash ===");
-  console.log("Plain password:", password);
-  console.log("Salt:", salt);
-  console.log("Hash:", hash);
+  console.log("\n=== Step 4: Compare (like login) ===");
+  console.log("Compare correct password:", await bcrypt.compare(password, storedHash)); // true
+  console.log("Compare wrong password:", await bcrypt.compare(wrongPassword, storedHash)); // false
 
-const hashParts = hash.split("$");
-  console.log("Parsed hash => version:", hashParts[1], "| cost:", hashParts[2]);
-  console.log("Salt+hash payload length:", hashParts[3].length);
+  console.log("\n=== Step 5: Why re-hash is wrong ===");
+  const rehash = await bcrypt.hash(password, cost); // salt جدید => hash جدید
+  console.log("Rehashed same password:", rehash);
+  console.log("Rehash equals storedHash?", rehash === storedHash); // false
+
+
+
+
 }
-step2_hashPassword().catch(console.error);
+main().catch(console.error);
 
 
 
