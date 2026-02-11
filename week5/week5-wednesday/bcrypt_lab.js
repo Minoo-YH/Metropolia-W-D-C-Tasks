@@ -1,31 +1,57 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
+function sleepTicks() {
+  let count = 0;
+  const timer = setInterval(() => {
+    count++;
+    process.stdout.write(".");
+    if (count === 50) {
+      clearInterval(timer);
+      console.log("\n(tick demo finished)");
+    }
+  }, 200);
+  return timer;
+}
+
+async function asyncHashDemo() {
+  console.log("\n=== ASYNC hash demo ===");
+  console.log("If async works well, dots should print WHILE hashing...\n");
+
+  sleepTicks();
+
+  const password = "mySecurePassword";
+  const cost = 12; // کمی سنگین‌تر تا اثر واضح‌تر بشه
+  const hash = await bcrypt.hash(password, cost);
+
+  console.log("\n\nAsync hash done ✅");
+  console.log("Hash prefix:", hash.split("$").slice(0, 3).join("$") + "$");
+}
+
+function syncHashDemo() {
+  console.log("\n=== SYNC hash demo ===");
+  console.log("If sync blocks, dots will STOP until hashing finishes...\n");
+
+  sleepTicks();
+
+  const password = "mySecurePassword";
+  const cost = 12;
+
+  const hash = bcrypt.hashSync(password, cost);
+
+  console.log("\n\nSync hash done ✅");
+  console.log("Hash prefix:", hash.split("$").slice(0, 3).join("$") + "$");
+}
 
 async function main() {
-   const password = "mySecurePassword";
-   const wrongPassword = "wrongPassword";
-    const cost = 10;
+  // اول async رو تست کن
+  await asyncHashDemo();
 
-    // Hash the password
-   
-    console.log("=== Step 3: Store hash (like register) ===");
-  const storedHash = await bcrypt.hash(password, cost); // خودش salt می‌سازه
-  console.log("Stored hash (save in DB):", storedHash);
-
-  console.log("\n=== Step 4: Compare (like login) ===");
-  console.log("Compare correct password:", await bcrypt.compare(password, storedHash)); // true
-  console.log("Compare wrong password:", await bcrypt.compare(wrongPassword, storedHash)); // false
-
-  console.log("\n=== Step 5: Why re-hash is wrong ===");
-  const rehash = await bcrypt.hash(password, cost); // salt جدید => hash جدید
-  console.log("Rehashed same password:", rehash);
-  console.log("Rehash equals storedHash?", rehash === storedHash); // false
-
-
-
-
+  // بعد sync رو تست کن
+  syncHashDemo();
 }
+
 main().catch(console.error);
+
 
 
 
