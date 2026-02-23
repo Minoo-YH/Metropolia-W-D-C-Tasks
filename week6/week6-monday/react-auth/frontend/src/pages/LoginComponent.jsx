@@ -26,7 +26,7 @@ const LoginComponent = ({ setIsAuthenticated }) => {
 
       if (response.ok) {
         // data = { email, token }
-        localStorage.setItem("user", JSON.stringify(data));
+        sessionStorage.setItem("user", JSON.stringify(data));
 
         console.log("Login success:", data);
         console.log("Storage now:", localStorage.getItem("user"));
