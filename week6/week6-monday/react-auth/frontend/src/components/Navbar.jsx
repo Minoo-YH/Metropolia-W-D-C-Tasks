@@ -14,7 +14,10 @@ function Navbar({ isAuthenticated, setIsAuthenticated }) {
       {isAuthenticated && (
         <div>
           <span>Welcome{email ? `, ${email}` : ""}</span>
+
           <Link to="/">Home</Link>
+          <Link to="/profile">Profile</Link>
+
           <button onClick={handleClick}>Log out</button>
         </div>
       )}
@@ -27,4 +30,6 @@ function Navbar({ isAuthenticated, setIsAuthenticated }) {
       )}
     </nav>
   );
+  
 }
+export default Navbar;
