@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Navbar({ setIsAuthenticated, isAuthenticated }) {
   const handleClick = () => {
     // remove user from storage
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
   };
 

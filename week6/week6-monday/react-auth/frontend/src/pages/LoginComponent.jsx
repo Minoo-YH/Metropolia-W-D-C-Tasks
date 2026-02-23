@@ -25,12 +25,7 @@ const LoginComponent = ({ setIsAuthenticated }) => {
       const data = await response.json().catch(() => null);
 
       if (response.ok) {
-        // data = { email, token }
-        sessionStorage.setItem("user", JSON.stringify(data));
-
-        console.log("Login success:", data);
-        console.log("Storage now:", localStorage.getItem("user"));
-
+        localStorage.setItem("user", JSON.stringify(data));
         setIsAuthenticated(true);
         navigate("/");
       } else {

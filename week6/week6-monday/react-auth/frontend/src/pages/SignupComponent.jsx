@@ -19,7 +19,7 @@ const SignupComponent = ({ setIsAuthenticated }) => {
         body: JSON.stringify({ email, password }),
       });
 
-      // ✅ این دو خط کلیدی‌اند: خطای واقعی را نشان می‌دهند
+      
       const data = await response.json().catch(() => null);
       console.log("SIGNUP status:", response.status);
       console.log("SIGNUP body:", data);
