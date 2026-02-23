@@ -1,20 +1,24 @@
 import { Link } from "react-router-dom";
 
-function Navbar({ setIsAuthenticated, isAuthenticated }) {
+function Navbar({ isAuthenticated, setIsAuthenticated }) {
   const handleClick = () => {
-    // remove user from storage
     localStorage.removeItem("user");
     setIsAuthenticated(false);
   };
+
+  const user = JSON.parse(localStorage.getItem("user")); // ممکنه null باشه
+  const email = user?.email;
 
   return (
     <nav>
       {isAuthenticated && (
         <div>
-          <span>Welcome</span>
+          <span>Welcome{email ? `, ${email}` : ""}</span>
+          <Link to="/">Home</Link>
           <button onClick={handleClick}>Log out</button>
         </div>
       )}
+
       {!isAuthenticated && (
         <div>
           <Link to="/login">Login</Link>
@@ -24,5 +28,3 @@ function Navbar({ setIsAuthenticated, isAuthenticated }) {
     </nav>
   );
 }
-
-export default Navbar;
