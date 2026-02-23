@@ -6,30 +6,26 @@ function Navbar({ isAuthenticated, setIsAuthenticated }) {
     setIsAuthenticated(false);
   };
 
-  const user = JSON.parse(localStorage.getItem("user")); // ممکنه null باشه
+  const user = JSON.parse(localStorage.getItem("user"));
   const email = user?.email;
 
   return (
     <nav>
-      {isAuthenticated && (
+      {isAuthenticated ? (
         <div>
-          <span>Welcome{email ? `, ${email}` : ""}</span>
-
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
-
+          <span>Welcome{email ? `, ${email}` : ""}</span>{" "}
+          <Link to="/">Home</Link>{" "}
+          <Link to="/profile">Profile</Link>{" "}
           <button onClick={handleClick}>Log out</button>
         </div>
-      )}
-
-      {!isAuthenticated && (
+      ) : (
         <div>
-          <Link to="/login">Login</Link>
+          <Link to="/login">Login</Link>{" "}
           <Link to="/signup">Signup</Link>
         </div>
       )}
     </nav>
   );
-  
 }
+
 export default Navbar;
