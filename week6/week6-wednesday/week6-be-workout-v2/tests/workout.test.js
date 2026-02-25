@@ -122,6 +122,35 @@ describe("GET /api/workouts/:id", () => {
 
 });
 
+describe("DELETE /api/workouts/:id", () => {
+
+  beforeEach(async () => {
+    await api
+      .post("/api/workouts")
+      .set("Authorization", "bearer " + token)
+      .send({
+        title: "Delete Test",
+        reps: 5,
+        load: 10
+      });
+  });
+
+  it("should delete a workout and return 200", async () => {
+
+    const workouts = await Workout.find({});
+    const workoutId = workouts[0]._id;
+
+    await api
+      .delete(`/api/workouts/${workoutId}`)
+      .set("Authorization", "bearer " + token)
+      .expect(200);
+
+    const workoutsAfter = await Workout.find({});
+    expect(workoutsAfter).toHaveLength(0);
+  });
+
+});
+
 
 // ===== Close database connection =====
 afterAll(async () => {
