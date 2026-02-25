@@ -96,20 +96,21 @@ describe("DELETE /api/workouts/:id", () => {
       expect(workoutsAtEnd).toHaveLength(initialWorkouts.length - 1);
 
     });
+    
   });
 
-  describe("when id is invalid", () => {
-    it("should return 400 for malformed id", async () => {
+   
+  describe("when id is valid but does not exist", () => {
+  it("should return 404", async () => {
 
-      const invalidId = "12345";
+    const nonExistingId = new mongoose.Types.ObjectId();
 
-      await api
-        .delete(`/api/workouts/${invalidId}`)
-        .expect(400);
+    await api
+      .delete(`/api/workouts/${nonExistingId}`)
+      .expect(404);
 
-    });
   });
-
+});
 });
 
 
