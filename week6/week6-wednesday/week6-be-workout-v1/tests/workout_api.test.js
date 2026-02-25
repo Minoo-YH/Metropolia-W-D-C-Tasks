@@ -81,21 +81,38 @@ describe("POST /api/workouts", () => {
 });
 
 describe("DELETE /api/workouts/:id", () => {
-  it("succeeds with status code 204 if id is valid", async () => {
-    const workoutsAtStart = await workoutsInDb();
-    const workoutToDelete = workoutsAtStart[0];
 
-    await api.delete(`/api/workouts/${workoutToDelete.id}`).expect(204);
+  describe("when id is valid", () => {
+    it("should delete workout and return 204", async () => {
 
-    const workoutsAtEnd = await workoutsInDb();
-    expect(workoutsAtEnd).toHaveLength(initialWorkouts.length - 1);
+      const workoutsAtStart = await workoutsInDb();
+      const workoutToDelete = workoutsAtStart[0];
 
-    const contents = workoutsAtEnd.map((r) => r.title);
-    expect(contents).not.toContain(workoutToDelete.title);
+      await api
+        .delete(`/api/workouts/${workoutToDelete.id}`)
+        .expect(204);
 
-    // expect(true).toBe(true);
+      const workoutsAtEnd = await workoutsInDb();
+      expect(workoutsAtEnd).toHaveLength(initialWorkouts.length - 1);
+
+    });
   });
+
+  describe("when id is invalid", () => {
+    it("should return 400 for malformed id", async () => {
+
+      const invalidId = "12345";
+
+      await api
+        .delete(`/api/workouts/${invalidId}`)
+        .expect(400);
+
+    });
+  });
+
 });
+
+
 
 afterAll(() => {
   mongoose.connection.close();
