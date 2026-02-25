@@ -181,6 +181,26 @@ describe("PATCH /api/workouts/:id", () => {
   });
 
 });
+ 
+// =====  AUTHORIZATION TESTS extra task  =====
+describe("Authorization checks", () => {
+
+  it("should return 401 if token is missing", async () => {
+    await api
+      .get("/api/workouts")
+      .expect(401);
+  });
+
+  it("should return 401 if token is invalid", async () => {
+    await api
+      .get("/api/workouts")
+      .set("Authorization", "bearer invalidtoken123")
+      .expect(401);
+  });
+
+});
+
+
 
 // ===== Close database connection =====
 afterAll(async () => {
