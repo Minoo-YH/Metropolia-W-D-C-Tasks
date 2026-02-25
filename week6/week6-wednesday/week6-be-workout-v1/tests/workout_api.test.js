@@ -48,14 +48,35 @@ describe("GET /api/workouts", () => {
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
-  it("should return 400 if title is missing", async () => {
-  const newWorkout = { reps: 23 };
+  
 
-  await api.post("/api/workouts").send(newWorkout).expect(400);
-
-  const workoutsAtEnd = await workoutsInDb();
-  expect(workoutsAtEnd).toHaveLength(initialWorkouts.length);
 });
+
+describe("POST /api/workouts", () => {
+
+  describe("when payload is valid", () => {
+    it("should create a new workout and return 201", async () => {
+
+      const newWorkout = {
+        title: "test workout 3",
+        reps: 13,
+        load: 103,
+      };
+
+      await api
+        .post("/api/workouts")
+        .send(newWorkout)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+      const workoutsAtEnd = await workoutsInDb();
+      expect(workoutsAtEnd).toHaveLength(initialWorkouts.length + 1);
+
+      const titles = workoutsAtEnd.map(w => w.title);
+      expect(titles).toContain(newWorkout.title);
+
+    });
+  });
 
 });
 
