@@ -151,6 +151,36 @@ describe("DELETE /api/workouts/:id", () => {
 
 });
 
+describe("PATCH /api/workouts/:id", () => {
+
+  beforeEach(async () => {
+    await api
+      .post("/api/workouts")
+      .set("Authorization", "bearer " + token)
+      .send({
+        title: "Patch Test",
+        reps: 10,
+        load: 20
+      });
+  });
+
+  it("should update workout reps and return 200", async () => {
+
+    const workouts = await Workout.find({});
+    const workoutId = workouts[0]._id;
+
+    await api
+      .patch(`/api/workouts/${workoutId}`)
+      .set("Authorization", "bearer " + token)
+      .send({ reps: 99 })
+      .expect(200);
+
+    const updatedWorkout = await Workout.findById(workoutId);
+
+    expect(updatedWorkout.reps).toBe(99);
+  });
+
+});
 
 // ===== Close database connection =====
 afterAll(async () => {
