@@ -94,6 +94,9 @@ const updateWorkout = async (req, res) => {
 }
 
 
+
+
+
 module.exports = {
   getWorkouts,
   getWorkout,

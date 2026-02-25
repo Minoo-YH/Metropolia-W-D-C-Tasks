@@ -21,4 +21,13 @@ const workouts = [
   },
 ];
 
+const {
+  getWorkouts,
+  getWorkout,
+  createWorkout,
+  deleteWorkout,
+  updateWorkout
+} = require("../controllers/workoutController");
+
+router.delete("/:id", deleteWorkout);
 module.exports = workouts;
