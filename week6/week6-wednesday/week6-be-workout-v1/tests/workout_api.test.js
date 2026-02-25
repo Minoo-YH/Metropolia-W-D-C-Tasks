@@ -30,14 +30,33 @@ beforeEach(async () => {
   await workoutObject.save();
 });
 
-describe("when there is initially some notes saved", () => {
-  it("all workouts are returned", async () => {
-    console.log("entered test");
-    const response = await api.get("/api/workouts");
+describe("POST /api/workouts", () => {
+  it("should add a valid workout", async () => {
+    const newWorkout = {
+      title: "Situps",
+      reps: 25,
+      load: 10,
+    };
 
-    expect(response.body).toHaveLength(initialWorkouts.length);
+    await api
+      .post("/api/workouts")
+      .send(newWorkout)
+      .expect(201)
+      .expect("Content-Type", /application\/json/);
+
+    const response = await api.get("/api/workouts");
+    expect(response.body).toHaveLength(initialWorkouts.length + 1);
   });
 
+  it("should return 400 if title is missing", async () => {
+    const newWorkout = { reps: 23 };
+
+    await api.post("/api/workouts").send(newWorkout).expect(400);
+
+    const response = await api.get("/api/workouts");
+    expect(response.body).toHaveLength(initialWorkouts.length);
+  });
+});
   test("a specific workout is within the returned workouts", async () => {
     console.log("entered test");
     const response = await api.get("/api/workouts");
@@ -98,7 +117,7 @@ describe("when there is initially some notes saved", () => {
 
     expect(response.body).toHaveLength(initialWorkouts.length);
   });
-});
+
 
 describe("deletion of a workout", () => {
   test("succeeds with status code 204 if id is valid", async () => {
